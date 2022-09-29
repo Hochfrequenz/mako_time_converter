@@ -61,14 +61,14 @@ func (l locationBasedGasTagConverter) IsGerman6Am(timestamp time.Time) bool {
 }
 
 func (l locationBasedGasTagConverter) Convert6AamToMidnight(timestamp time.Time) (time.Time, error) {
-	if l.IsGerman6Am(timestamp) == false {
+	if !l.IsGerman6Am(timestamp) {
 		return time.Time{}, fmt.Errorf("The given time %v is not German 6am", timestamp)
 	}
 	return l.StripTime(timestamp), nil
 }
 
 func (l locationBasedGasTagConverter) ConvertMidnightTo6Am(timestamp time.Time) (time.Time, error) {
-	if l.IsGermanMidnight(timestamp) == false {
+	if !l.IsGermanMidnight(timestamp) {
 		return time.Time{}, fmt.Errorf("The given time %v is not German midnight", timestamp)
 	}
 	localMidnight := l.toLocalTime(timestamp)
@@ -110,7 +110,7 @@ func (l locationBasedGasTagConverter) Convert(timestamp time.Time, configuration
 	}
 	if configuration.Source.IsGas { // this implies that the target is also gas, because otherwise the configuration would be invalid
 		// handle gas stuff here
-		if *configuration.Source.IsGasTagAware == true && *configuration.Target.IsGasTagAware == false {
+		if *configuration.Source.IsGasTagAware && !*configuration.Target.IsGasTagAware {
 			// convert from gas-tag to non-gas-tag
 			if l.IsGerman6Am(result) {
 				result, err = l.Convert6AamToMidnight(result)
@@ -119,7 +119,7 @@ func (l locationBasedGasTagConverter) Convert(timestamp time.Time, configuration
 				}
 			}
 		}
-		if *configuration.Source.IsGasTagAware == false && *configuration.Target.IsGasTagAware == true {
+		if !*configuration.Source.IsGasTagAware && *configuration.Target.IsGasTagAware {
 			if l.IsGermanMidnight(result) {
 				result, err = l.ConvertMidnightTo6Am(result)
 				if err != nil {
@@ -132,7 +132,7 @@ func (l locationBasedGasTagConverter) Convert(timestamp time.Time, configuration
 		// handle strom-only stuff here
 	}
 
-	if configuration.Source.IsEndDate == true && configuration.Target.IsEndDate == true && *configuration.Source.EndDateTimeKind != *configuration.Target.EndDateTimeKind {
+	if configuration.Source.IsEndDate && configuration.Target.IsEndDate && *configuration.Source.EndDateTimeKind != *configuration.Target.EndDateTimeKind {
 		if *configuration.Source.EndDateTimeKind == enddatetimekind.INCLUSIVE { // implicit: target is exclusive
 			// convert from inclusive to exclusive
 			result = l.addGermanDay(result)
