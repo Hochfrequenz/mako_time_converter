@@ -1,4 +1,4 @@
-package pkg_test
+package conversion_test
 
 import (
 	"github.com/corbym/gocrest/is"
@@ -26,8 +26,8 @@ func TestInit(t *testing.T) {
 	suite.Run(t, new(Suite))
 }
 
-func getBerlinConverter() pkg.GasTagConverter {
-	return pkg.NewGasTagConverter("Europe/Berlin")
+func getBerlinConverter() conversion.GasTagConverter {
+	return conversion.NewGasTagConverter("Europe/Berlin")
 }
 
 func (s *Suite) Test_IsGermanMidnight_true() {
