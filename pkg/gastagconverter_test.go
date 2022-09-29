@@ -184,3 +184,25 @@ func (s *Suite) Test_Gas_Inclusive_End_To_Gas_Exclusive_End() {
 		then.AssertThat(s.T(), actual, is.EqualTo(expected))
 	}
 }
+
+func (s *Suite) Test_Invalid_Configurations_Are_Rejected() {
+	invalidConfigs := []pkg.DateTimeConversionConfiguration{
+		{
+			Source: pkg.DateTimeConfiguration{IsGas: false, IsGasTagAware: pointer(true)},
+			Target: pkg.DateTimeConfiguration{IsGas: true, IsGasTagAware: pointer(true)},
+		},
+		{
+			Source: pkg.DateTimeConfiguration{IsEndDate: true}, // no enddatetime kind given
+			Target: pkg.DateTimeConfiguration{IsEndDate: true, EndDateTimeKind: pointer(enddatetimekind.EXCLUSIVE)},
+		},
+		{
+			Source: pkg.DateTimeConfiguration{IsGas: true, IsGasTagAware: pointer(true)},
+			Target: pkg.DateTimeConfiguration{IsGas: true}, // no gastag awareness given
+		},
+	}
+	converter := getBerlinConverter()
+	for _, invalidConfig := range invalidConfigs {
+		_, err := converter.Convert(time.Time{}, invalidConfig)
+		then.AssertThat(s.T(), err, is.Not(is.Nil()))
+	}
+}

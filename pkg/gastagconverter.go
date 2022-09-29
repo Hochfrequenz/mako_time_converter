@@ -125,12 +125,10 @@ func (l locationBasedGasTagConverter) Convert(timestamp time.Time, configuration
 				if err != nil {
 					return time.Time{}, err
 				}
-
 			}
 		}
-	} else {
-		// handle strom-only stuff here
 	}
+	// else { handle strom-only stuff here }
 
 	if configuration.Source.IsEndDate && configuration.Target.IsEndDate && *configuration.Source.EndDateTimeKind != *configuration.Target.EndDateTimeKind {
 		if *configuration.Source.EndDateTimeKind == enddatetimekind.INCLUSIVE { // implicit: target is exclusive

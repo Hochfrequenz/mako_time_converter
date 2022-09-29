@@ -40,5 +40,4 @@ func DateTimeConversionConfigurationStructLevelValidator(sl validator.StructLeve
 	if config.Source.IsGas != config.Target.IsGas {
 		sl.ReportError(config.Source, "Source/Target.IsGas", "Target", "Source.IsGas==Target.IsGas", "")
 	}
-	return
 }
