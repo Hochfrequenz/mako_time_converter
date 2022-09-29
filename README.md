@@ -1,4 +1,4 @@
-# make_time_converter (go)
+# mako_time_converter (go)
 ![Unittest status badge](https://github.com/hochfrequenz/mako_time_converter/workflows/Unittests/badge.svg)
 ![Coverage status badge](https://github.com/hochfrequenz/mako_time_converter/workflows/coverage/badge.svg)
 ![Linter status badge](https://github.com/hochfrequenz/mako_time_converter/workflows/golangci-lint/badge.svg)
