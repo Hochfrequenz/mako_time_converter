@@ -27,7 +27,7 @@ Then you need a conversion logic for your `time.Time`s.
 This library does the conversion for you.
 
 ## How To Use
-todo: add mwe here
+See [Go Playground](https://go.dev/play/p/6JrqbfswLc7) for a minimal working example.
 
 ## Implicit Requirements
 
