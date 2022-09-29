@@ -20,4 +20,7 @@ require (
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
 
-replace github.com/hochfrequenz/mako_time_converter => ./pkg
+replace (
+	github.com/hochfrequenz/mako_time_converter/configuration => ./configuration
+	github.com/hochfrequenz/mako_time_converter/conversion => ./conversion
+)
