@@ -3,8 +3,9 @@ package pkg_test
 import (
 	"github.com/corbym/gocrest/is"
 	"github.com/corbym/gocrest/then"
-	"github.com/hochfrequenz/mako_time_converter/pkg"
-	"github.com/hochfrequenz/mako_time_converter/pkg/enddatetimekind"
+	"github.com/hochfrequenz/mako_time_converter/configuration"
+	"github.com/hochfrequenz/mako_time_converter/configuration/enddatetimekind"
+	"github.com/hochfrequenz/mako_time_converter/conversion"
 	"github.com/stretchr/testify/suite"
 	"testing"
 	"time"
@@ -118,9 +119,9 @@ func (s *Suite) Test_Gastag_Aware_To_Non_Gastag_Aware() {
 		time.Date(2023, 6, 1, 4, 0, 0, 0, time.UTC):  time.Date(2023, 5, 31, 22, 0, 0, 0, time.UTC),
 		time.Date(2023, 12, 1, 5, 0, 0, 0, time.UTC): time.Date(2023, 11, 30, 23, 0, 0, 0, time.UTC),
 	}
-	conversion := pkg.DateTimeConversionConfiguration{
-		Source: pkg.DateTimeConfiguration{IsGas: true, IsGasTagAware: pointer(true)},
-		Target: pkg.DateTimeConfiguration{IsGas: true, IsGasTagAware: pointer(false)},
+	conversion := configuration.DateTimeConversionConfiguration{
+		Source: configuration.DateTimeConfiguration{IsGas: true, IsGasTagAware: pointer(true)},
+		Target: configuration.DateTimeConfiguration{IsGas: true, IsGasTagAware: pointer(false)},
 	}
 	converter := getBerlinConverter()
 	for input, expected := range pairs {
@@ -143,9 +144,9 @@ func (s *Suite) Test_Strom_Inclusive_End_To_Strom_Exclusive_End() {
 		time.Date(2023, 12, 31, 23, 0, 0, 0, time.UTC): time.Date(2024, 01, 01, 23, 0, 0, 0, time.UTC),
 		time.Date(2023, 12, 01, 23, 0, 0, 0, time.UTC): time.Date(2023, 12, 02, 23, 0, 0, 0, time.UTC),
 	}
-	conversion := pkg.DateTimeConversionConfiguration{
-		Source: pkg.DateTimeConfiguration{IsGas: false, IsEndDate: true, EndDateTimeKind: pointer(enddatetimekind.INCLUSIVE)},
-		Target: pkg.DateTimeConfiguration{IsGas: false, IsEndDate: true, EndDateTimeKind: pointer(enddatetimekind.EXCLUSIVE)},
+	conversion := configuration.DateTimeConversionConfiguration{
+		Source: configuration.DateTimeConfiguration{IsGas: false, IsEndDate: true, EndDateTimeKind: pointer(enddatetimekind.INCLUSIVE)},
+		Target: configuration.DateTimeConfiguration{IsGas: false, IsEndDate: true, EndDateTimeKind: pointer(enddatetimekind.EXCLUSIVE)},
 	}
 	converter := getBerlinConverter()
 	for input, expected := range pairs {
@@ -167,9 +168,9 @@ func (s *Suite) Test_Gas_Inclusive_End_To_Gas_Exclusive_End() {
 		time.Date(2023, 12, 30, 05, 0, 0, 0, time.UTC): time.Date(2023, 12, 31, 05, 0, 0, 0, time.UTC),
 		time.Date(2023, 12, 01, 05, 0, 0, 0, time.UTC): time.Date(2023, 12, 02, 05, 0, 0, 0, time.UTC),
 	}
-	conversion := pkg.DateTimeConversionConfiguration{
-		Source: pkg.DateTimeConfiguration{IsGas: true, IsGasTagAware: pointer(true), IsEndDate: true, EndDateTimeKind: pointer(enddatetimekind.INCLUSIVE)},
-		Target: pkg.DateTimeConfiguration{IsGas: true, IsGasTagAware: pointer(true), IsEndDate: true, EndDateTimeKind: pointer(enddatetimekind.EXCLUSIVE)},
+	conversion := configuration.DateTimeConversionConfiguration{
+		Source: configuration.DateTimeConfiguration{IsGas: true, IsGasTagAware: pointer(true), IsEndDate: true, EndDateTimeKind: pointer(enddatetimekind.INCLUSIVE)},
+		Target: configuration.DateTimeConfiguration{IsGas: true, IsGasTagAware: pointer(true), IsEndDate: true, EndDateTimeKind: pointer(enddatetimekind.EXCLUSIVE)},
 	}
 	converter := getBerlinConverter()
 	for input, expected := range pairs {
@@ -186,18 +187,18 @@ func (s *Suite) Test_Gas_Inclusive_End_To_Gas_Exclusive_End() {
 }
 
 func (s *Suite) Test_Invalid_Configurations_Are_Rejected() {
-	invalidConfigs := []pkg.DateTimeConversionConfiguration{
+	invalidConfigs := []configuration.DateTimeConversionConfiguration{
 		{
-			Source: pkg.DateTimeConfiguration{IsGas: false, IsGasTagAware: pointer(true)},
-			Target: pkg.DateTimeConfiguration{IsGas: true, IsGasTagAware: pointer(true)},
+			Source: configuration.DateTimeConfiguration{IsGas: false, IsGasTagAware: pointer(true)},
+			Target: configuration.DateTimeConfiguration{IsGas: true, IsGasTagAware: pointer(true)},
 		},
 		{
-			Source: pkg.DateTimeConfiguration{IsEndDate: true}, // no enddatetime kind given
-			Target: pkg.DateTimeConfiguration{IsEndDate: true, EndDateTimeKind: pointer(enddatetimekind.EXCLUSIVE)},
+			Source: configuration.DateTimeConfiguration{IsEndDate: true}, // no enddatetime kind given
+			Target: configuration.DateTimeConfiguration{IsEndDate: true, EndDateTimeKind: pointer(enddatetimekind.EXCLUSIVE)},
 		},
 		{
-			Source: pkg.DateTimeConfiguration{IsGas: true, IsGasTagAware: pointer(true)},
-			Target: pkg.DateTimeConfiguration{IsGas: true}, // no gastag awareness given
+			Source: configuration.DateTimeConfiguration{IsGas: true, IsGasTagAware: pointer(true)},
+			Target: configuration.DateTimeConfiguration{IsGas: true}, // no gastag awareness given
 		},
 	}
 	converter := getBerlinConverter()

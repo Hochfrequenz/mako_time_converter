@@ -3,7 +3,8 @@ package pkg
 import (
 	"fmt"
 	"github.com/go-playground/validator/v10"
-	"github.com/hochfrequenz/mako_time_converter/pkg/enddatetimekind"
+	mtcconfig "github.com/hochfrequenz/mako_time_converter/configuration"
+	"github.com/hochfrequenz/mako_time_converter/configuration/enddatetimekind"
 	"log"
 	"time"
 )
@@ -21,7 +22,7 @@ type GasTagConverter interface {
 	// StripTime removes all hours, minutes, seconds, milliseconds (in german local time) from the given timestamp. This is similar to a "round down" or "floor" in German local time.
 	StripTime(timestamp time.Time) time.Time
 	// Convert  converts the given timestamp to a DateTimeConversionConfiguration.Target by applying all transformations which are derived from the given configuration time is described by DateTimeConversionConfiguration.Source.
-	Convert(timestamp time.Time, configuration DateTimeConversionConfiguration) (time.Time, error)
+	Convert(timestamp time.Time, configuration mtcconfig.DateTimeConversionConfiguration) (time.Time, error)
 }
 
 type locationBasedGasTagConverter struct {
@@ -93,9 +94,9 @@ func (l locationBasedGasTagConverter) subtractGermanDay(timestamp time.Time) tim
 	return localtime.AddDate(0, 0, -1).UTC()
 }
 
-func (l locationBasedGasTagConverter) Convert(timestamp time.Time, configuration DateTimeConversionConfiguration) (time.Time, error) {
+func (l locationBasedGasTagConverter) Convert(timestamp time.Time, configuration mtcconfig.DateTimeConversionConfiguration) (time.Time, error) {
 	validate := validator.New()
-	validate.RegisterStructValidation(DateTimeConversionConfigurationStructLevelValidator, DateTimeConversionConfiguration{})
+	validate.RegisterStructValidation(mtcconfig.DateTimeConversionConfigurationStructLevelValidator, mtcconfig.DateTimeConversionConfiguration{})
 	err := validate.Struct(configuration)
 	if err != nil {
 		return time.Time{}, err
