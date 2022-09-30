@@ -28,7 +28,10 @@ Then you need a conversion logic for your `time.Time`s.
 This library does the conversion for you.
 
 ## How To Use
-See [Go Playground](https://go.dev/play/p/Xsng2cjWU-Z) for a minimal working example.
+See [Go Playground](https://go.dev/play/p/rnaj2E2A9xn) for a minimal working example.
+
+Note that this library only modifies timestamps, that are 06:00 German local time (if we're dealing with Gas) or 00:00 German local time (if we're _not_ dealing with Gas).
+It won't shift arbitrary timestamps, so in most cases in your application you don't have to manually check if the conversion shall be applied to specific data constellations but only generally think about whether a `time.Time` is interpreted differently by different systems.
 
 ## Implicit Requirements
 
