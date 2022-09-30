@@ -2,8 +2,9 @@
 ![Unittest status badge](https://github.com/hochfrequenz/mako_time_converter/workflows/Unittests/badge.svg)
 ![Coverage status badge](https://github.com/hochfrequenz/mako_time_converter/workflows/coverage/badge.svg)
 ![Linter status badge](https://github.com/hochfrequenz/mako_time_converter/workflows/golangci-lint/badge.svg)
+[![Go Reference](https://pkg.go.dev/badge/github.com/hochfrequenz/mako_time_converter.svg)](https://pkg.go.dev/github.com/hochfrequenz/mako_time_converter)
 
-Go package to convert between German "Gastag" and "Stromtag", between inclusive and exclusive end dates and combinations of all them.
+This is a Go module to convert between German "Gastag" and "Stromtag", between inclusive and exclusive end dates and combinations of all them.
 This is relevant for German Marktkommunikation ("MaKo").
 
 This is a Golang port of the [`mako_datetime_converter` for .NET](https://github.com/Hochfrequenz/mako_datetime_converter).

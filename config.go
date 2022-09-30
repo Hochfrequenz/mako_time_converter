@@ -1,8 +1,8 @@
-package configuration
+package mako_time_converter
 
 import (
 	"github.com/go-playground/validator/v10"
-	"github.com/hochfrequenz/mako_time_converter/configuration/enddatetimekind"
+	"github.com/hochfrequenz/mako_time_converter/enddatetimekind"
 )
 
 // DateTimeConfiguration describes how a time.Time is meant/interpreted by a system. Two of these configurations allow to convert a time.Time smoothly.
