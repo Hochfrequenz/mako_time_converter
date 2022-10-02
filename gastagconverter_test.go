@@ -5,6 +5,7 @@ import (
 	"github.com/corbym/gocrest/then"
 	"github.com/hochfrequenz/mako_time_converter"
 	"github.com/hochfrequenz/mako_time_converter/enddatetimekind"
+	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
 	"testing"
 	"time"
@@ -95,6 +96,20 @@ func (s *Suite) Test_German_6Am_To_Midnight_Conversion() {
 		then.AssertThat(s.T(), err, is.Nil())
 		then.AssertThat(s.T(), actual6Am, is.EqualTo(german6Am))
 	}
+}
+
+func (s *Suite) Test_German_6Am_To_Midnight_Conversion_Error() {
+	converter := getBerlinConverter()
+	not6am := time.Date(2022, 1, 1, 0, 0, 0, 0, time.UTC)
+	_, err := converter.Convert6AamToMidnight(not6am)
+	then.AssertThat(s.T(), err, is.Not(is.Nil()))
+}
+
+func (s *Suite) Test_German_Midnight_To_6am_Conversion_Error() {
+	converter := getBerlinConverter()
+	notGermanMidnight := time.Date(2022, 1, 1, 0, 0, 0, 0, time.UTC)
+	_, err := converter.ConvertMidnightTo6Am(notGermanMidnight)
+	then.AssertThat(s.T(), err, is.Not(is.Nil()))
 }
 
 func (s *Suite) Test_Strip_Time() {
@@ -204,5 +219,55 @@ func (s *Suite) Test_Invalid_Configurations_Are_Rejected() {
 	for _, invalidConfig := range invalidConfigs {
 		_, err := converter.Convert(time.Time{}, invalidConfig)
 		then.AssertThat(s.T(), err, is.Not(is.Nil()))
+	}
+}
+
+func (s *Suite) Test_NewGastagConverter_Panics_for_Unknown_Timezone() {
+	assert.Panics(s.T(), func() { mako_time_converter.NewGasTagConverter("OtherContinent/IDontKnow") })
+}
+
+func (s *Suite) Test_StripTime_On_Source_Side() {
+	pairs := map[time.Time]time.Time{
+		time.Date(2023, 05, 30, 22, 1, 2, 3, time.UTC): time.Date(2023, 05, 31, 22, 0, 0, 0, time.UTC)}
+	conversion := mako_time_converter.DateTimeConversionConfiguration{
+		Source: mako_time_converter.DateTimeConfiguration{IsGas: false, IsEndDate: true, EndDateTimeKind: pointer(enddatetimekind.INCLUSIVE), StripTime: true},
+		Target: mako_time_converter.DateTimeConfiguration{IsGas: false, IsEndDate: true, EndDateTimeKind: pointer(enddatetimekind.EXCLUSIVE)},
+	}
+	converter := getBerlinConverter()
+	for input, expected := range pairs {
+		actual, err := converter.Convert(input, conversion)
+		then.AssertThat(s.T(), err, is.Nil())
+		then.AssertThat(s.T(), actual, is.EqualTo(expected))
+	}
+}
+
+func (s *Suite) Test_StripTime_On_Target_Side() {
+	pairs := map[time.Time]time.Time{
+		time.Date(2023, 05, 30, 22, 0, 0, 0, time.UTC): time.Date(2023, 05, 30, 22, 0, 0, 0, time.UTC)}
+	conversion := mako_time_converter.DateTimeConversionConfiguration{
+		Source: mako_time_converter.DateTimeConfiguration{IsGas: true, IsGasTagAware: pointer(false)},
+		Target: mako_time_converter.DateTimeConfiguration{IsGas: true, IsGasTagAware: pointer(true), StripTime: true}, // but we'll loose the gastag on target side because of strip time
+	}
+	converter := getBerlinConverter()
+	for input, expected := range pairs {
+		actual, err := converter.Convert(input, conversion)
+		then.AssertThat(s.T(), err, is.Nil())
+		then.AssertThat(s.T(), actual, is.EqualTo(expected))
+	}
+}
+
+func (s *Suite) Test_Same_Source_And_Target_Leads_To_Utc_Conversion_Only() {
+	berlin, _ := time.LoadLocation("Europe/Berlin")
+	pairs := map[time.Time]time.Time{
+		time.Date(2023, 05, 30, 4, 5, 6, 0, berlin): time.Date(2023, 05, 30, 2, 5, 6, 0, time.UTC)}
+	conversion := mako_time_converter.DateTimeConversionConfiguration{
+		Source: mako_time_converter.DateTimeConfiguration{},
+		Target: mako_time_converter.DateTimeConfiguration{},
+	}
+	converter := getBerlinConverter()
+	for input, expected := range pairs {
+		actual, err := converter.Convert(input, conversion)
+		then.AssertThat(s.T(), err, is.Nil())
+		then.AssertThat(s.T(), actual, is.EqualTo(expected))
 	}
 }

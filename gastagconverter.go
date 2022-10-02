@@ -114,7 +114,7 @@ func (l locationBasedGasTagConverter) Convert(timestamp time.Time, configuration
 			// convert from gas-tag to non-gas-tag
 			if l.IsGerman6Am(result) {
 				result, err = l.Convert6AamToMidnight(result)
-				if err != nil {
+				if err != nil { // the error won't happen because Convert6AmToMidnight only returns an error if the datetime is not 6Am (which we checked before)
 					return time.Time{}, err
 				}
 			}
@@ -122,7 +122,7 @@ func (l locationBasedGasTagConverter) Convert(timestamp time.Time, configuration
 		if !*configuration.Source.IsGasTagAware && *configuration.Target.IsGasTagAware {
 			if l.IsGermanMidnight(result) {
 				result, err = l.ConvertMidnightTo6Am(result)
-				if err != nil {
+				if err != nil { //  the error won't happen because ConvertMidnightTo6Am only returns an error if the datetime is not midnight (which we checked before)
 					return time.Time{}, err
 				}
 			}

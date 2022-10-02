@@ -33,6 +33,13 @@ See [Go Playground](https://go.dev/play/p/rnaj2E2A9xn) for a minimal working exa
 Note that this library only modifies timestamps, that are 06:00 German local time (if we're dealing with Gas) or 00:00 German local time (if we're _not_ dealing with Gas).
 It won't shift arbitrary timestamps, so in most cases in your application you don't have to manually check if the conversion shall be applied to specific data constellations but only generally think about whether a `time.Time` is interpreted differently by different systems.
 
+## Code Quality / Production Readiness
+
+- The code has [95%](https://github.com/Hochfrequenz/mako_time_converter/blob/main/.github/workflows/coverage.yml#L24) unit test coverage. ✔️
+- The package has only one dependency itself (except for testing frameworks) ✔️:
+  - [go-playground/validator](https://github.com/go-playground/validator) ️
+- No linter warnings in the `golangci-lint` configuration ✔️
+
 ## Implicit Requirements
 
 The package requires your relevant timezone data to be present on the system on which you're using it.
