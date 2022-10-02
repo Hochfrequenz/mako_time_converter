@@ -1,4 +1,5 @@
 # mako_time_converter (go)
+
 ![Unittest status badge](https://github.com/hochfrequenz/mako_time_converter/workflows/Unittests/badge.svg)
 ![Coverage status badge](https://github.com/hochfrequenz/mako_time_converter/workflows/coverage/badge.svg)
 ![Linter status badge](https://github.com/hochfrequenz/mako_time_converter/workflows/golangci-lint/badge.svg)
@@ -28,6 +29,7 @@ Then you need a conversion logic for your `time.Time`s.
 This library does the conversion for you.
 
 ## How To Use
+
 See [Go Playground](https://go.dev/play/p/rnaj2E2A9xn) for a minimal working example.
 
 Note that this library only modifies timestamps, that are 06:00 German local time (if we're dealing with Gas) or 00:00 German local time (if we're _not_ dealing with Gas).
