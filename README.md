@@ -38,7 +38,7 @@ It won't shift arbitrary timestamps, so in most cases in your application you do
 - The code has [95%](https://github.com/Hochfrequenz/mako_time_converter/blob/main/.github/workflows/coverage.yml#L24) unit test coverage. ✔️
 - The package has only one dependency itself (except for testing frameworks) ✔️:
   - [go-playground/validator](https://github.com/go-playground/validator) ️
-- No linter warnings in the `golangci-lint` configuration ✔️
+- No linter warnings in the default `golangci-lint` configuration ✔️
 
 ## Implicit Requirements
 
