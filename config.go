@@ -22,9 +22,9 @@ type DateTimeConfiguration struct {
 // A DateTimeConversionConfiguration describes which steps are necessary to convert a datetime from a Source to a Target
 type DateTimeConversionConfiguration struct {
 	// Source is the configuration of the datetime before the conversion
-	Source DateTimeConfiguration `json:"source" validate:"dive,required"`
+	Source DateTimeConfiguration `json:"source" validate:"required"`
 	// Target is the configuration of the datetime after the conversion
-	Target DateTimeConfiguration `json:"target" validate:"dive,required"`
+	Target DateTimeConfiguration `json:"target" validate:"required"`
 }
 
 // Invert returns an inverted configuration (switched source and target)
