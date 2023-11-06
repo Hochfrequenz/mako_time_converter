@@ -4,7 +4,7 @@ go 1.19
 
 require (
 	github.com/corbym/gocrest v1.1.1
-	github.com/go-playground/validator/v10 v10.15.5
+	github.com/go-playground/validator/v10 v10.16.0
 	github.com/stretchr/testify v1.8.4
 )
 
