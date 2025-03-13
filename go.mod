@@ -1,6 +1,8 @@
 module github.com/hochfrequenz/mako_time_converter
 
-go 1.19
+go 1.23.0
+
+toolchain go1.23.1
 
 require (
 	github.com/corbym/gocrest v1.1.2
@@ -15,7 +17,6 @@ require (
 	github.com/go-playground/universal-translator v0.18.1 // indirect
 	github.com/leodido/go-urn v1.4.0 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
-	github.com/stretchr/objx v0.5.2 // indirect
 	golang.org/x/crypto v0.35.0 // indirect
 	golang.org/x/net v0.36.0 // indirect
 	golang.org/x/sys v0.30.0 // indirect
