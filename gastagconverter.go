@@ -32,7 +32,7 @@ type locationBasedGasTagConverter struct {
 func NewGasTagConverter(zoneName string) GasTagConverter {
 	location, err := time.LoadLocation(zoneName)
 	if err != nil {
-		errorMsg := fmt.Errorf("The timezone data for '%s' could not be found. Import \"time/tzdata\" anywhere in your project or build with `-tags timetzdata`: https://pkg.go.dev/time/tzdata", zoneName)
+		errorMsg := fmt.Errorf("the timezone data for '%s' could not be found. Import \"time/tzdata\" anywhere in your project or build with `-tags timetzdata`: https://pkg.go.dev/time/tzdata", zoneName)
 		log.Panic(errorMsg)
 	}
 	return locationBasedGasTagConverter{location: location}
@@ -62,14 +62,14 @@ func (l locationBasedGasTagConverter) IsGerman6Am(timestamp time.Time) bool {
 
 func (l locationBasedGasTagConverter) Convert6AamToMidnight(timestamp time.Time) (time.Time, error) {
 	if !l.IsGerman6Am(timestamp) {
-		return time.Time{}, fmt.Errorf("The given time %v is not German 6am", timestamp)
+		return time.Time{}, fmt.Errorf("the given time %v is not German 6am", timestamp)
 	}
 	return l.StripTime(timestamp), nil
 }
 
 func (l locationBasedGasTagConverter) ConvertMidnightTo6Am(timestamp time.Time) (time.Time, error) {
 	if !l.IsGermanMidnight(timestamp) {
-		return time.Time{}, fmt.Errorf("The given time %v is not German midnight", timestamp)
+		return time.Time{}, fmt.Errorf("the given time %v is not German midnight", timestamp)
 	}
 	localMidnight := l.toLocalTime(timestamp)
 	year, month, day := localMidnight.Date()
