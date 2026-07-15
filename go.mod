@@ -1,8 +1,6 @@
 module github.com/hochfrequenz/mako_time_converter
 
-go 1.23.0
-
-toolchain go1.23.1
+go 1.25.0
 
 require (
 	github.com/corbym/gocrest v1.1.2
