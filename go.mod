@@ -5,7 +5,7 @@ go 1.25.0
 require (
 	github.com/corbym/gocrest v1.2.1
 	github.com/go-playground/validator/v10 v10.30.3
-	github.com/stretchr/testify v1.12.0
+	github.com/stretchr/testify v1.12.1
 )
 
 require (
