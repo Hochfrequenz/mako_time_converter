@@ -3,7 +3,7 @@ module github.com/hochfrequenz/mako_time_converter
 go 1.25.0
 
 require (
-	github.com/corbym/gocrest v1.2.2
+	github.com/corbym/gocrest v1.3.0
 	github.com/go-playground/validator/v10 v10.30.4
 	github.com/stretchr/testify v1.12.1
 )
